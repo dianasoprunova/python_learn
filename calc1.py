@@ -12,7 +12,7 @@ b = float(str_input2)
 result = None
 
 if operation == '+':
- result = a / b
+ result = a + b
 #print(type(result))
 elif operation == '/':
     if b != 0: 
