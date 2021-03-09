@@ -45,7 +45,7 @@ if operation == '/':
  result = delimoe / delitel
 #print(type(result))
 elif operation == '/':
-    if b != 0: 
+    if delitel != 0: 
         result= delimoe / delitel
     else:
         result= 'inf'
