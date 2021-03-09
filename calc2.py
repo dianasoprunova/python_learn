@@ -42,13 +42,11 @@ delitel = float(str_B)
 result = None
 
 if operation == '/':
- result = delimoe / delitel
-#print(type(result))
-elif operation == '/':
-    if delitel != 0: 
-        result= delimoe / delitel
-    else:
+    if delitel == 0: 
         result= 'inf'
+    else:
+        result = delimoe / delitel
+#print(type(result))
 elif operation == '-':
  result = delimoe - delitel
 elif operation == '+':
