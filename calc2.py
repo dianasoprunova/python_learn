@@ -24,7 +24,7 @@ while i < len(str_command):
         if operation == '':
             str_A += str_command[i]
         else:
-            str_B = str_command[i]
+            str_B += str_command[i]
             
     i += 1
 
