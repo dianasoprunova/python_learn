@@ -10,20 +10,23 @@ str_B = ''
 
 operation = ''
 
-for letter in str_command:
-    print(letter)
-    if letter == '+' or letter == '-' or letter == '*'or letter == '^' or letter == '/':
+i = 0
+
+while i < len(str_command):
+    if str_command[i] == '+' or str_command[i] == '-' or str_command[i] == '*'or str_command[i] == '^' or str_command[i] == '/':
         if str_A == '':
-            Znachenie1 = letter
+            Znachenie1 = str_command[i]
         elif operation != '':
-            Znachenie2 = letter
+            Znachenie2 = str_command[i]
         else:
-            operation = letter
+            operation = str_command[i]
     else:
         if operation == '':
-            str_A = str_A + letter
+            str_A += str_command[i]
         else:
-            str_B = str_B + letter
+            str_B = str_command[i]
+            
+    i += 1
 
 str_A = Znachenie1 + str_A.strip()
 str_B = Znachenie2 + str_B.strip()           
