@@ -1,66 +1,60 @@
 #simple div
 
-str_command = input("Plese type command a + b or a - b: ")
+str_command = input("Please type command a + b or a-b: ")
+# str_command = input()
+str_command.replace(' ', '')
 
-Znachenie1 = ''
+'''
+parsing
+'''
+
+hp_ops = tuple('^')
+mp_ops = tuple('*/')
+lp_ops = ('+', '-')
+supported_ops = hp_ops + mp_ops + lp_ops
+digits_chars = tuple(map(str, range(10))) + tuple('.,-')
+
 str_A = ''
-
-Znachenie2 = ''
 str_B = ''
+actions = []
 
-operation = ''
+d = dict()
+d['opr'] = 'None'
+d['val'] = ''
+actions.append(d)
 
-i = 0
+for i, letter in enumerate(str_command):
+	if letter in supported_ops and (i > 0) and actions[-1].get('val') != '':
+		actions.append({'opr': letter,
+						'val': ''})
+	elif letter in digits_chars:
+		actions[-1]['val'] = actions[-1].get('val') + letter
 
-while i < len(str_command):
-    if str_command[i] == '+' or str_command[i] == '-' or str_command[i] == '*'or str_command[i] == '^' or str_command[i] == '/':
-        if str_A == '':
-            Znachenie1 = str_command[i]
-        elif operation != '':
-            Znachenie2 = str_command[i]
-        else:
-            operation = str_command[i]
-    else:
-        if operation == '':
-            str_A += str_command[i]
-        else:
-            str_B += str_command[i]
-            
-    i += 1
+'''
+calculation
+'''
+#variables = list(map(float, variables))
+for action in actions:
+	action['val'] = float(action.get('val'))
 
-str_A = Znachenie1 + str_A.strip()
-str_B = Znachenie2 + str_B.strip()           
-        
-
-#str_input = input("A: ")
-
-delimoe = float(str_A)
-#print(type(delimoe))
-
-#operation = input ("+ / * - ^: ")
-
-#str_input2 = input("B: ")
-delitel = float(str_B)
-#print(type(delitel))
 result = None
 
-if operation == '/':
-    if delitel == 0: 
-        result= 'inf'
-    else:
-        result = delimoe / delitel
-#print(type(result))
-elif operation == '-':
- result = delimoe - delitel
-elif operation == '+':
- result = delimoe + delitel
-elif operation == '*':
- result = delimoe * delitel
-elif operation == '^':
- result = delimoe ** delitel
+for action in actions:
+	if type(result) == str:
+		break
 
-else:
- result = "unknown"
-#print(type(result))
+	var_A = result
+	var_B = action.get('val')
+	operation = action.get('opr')
+
+	if operation in '+-*/':
+		if var_B == 0 and operation == '/':
+			result = 'Inf'
+		else:
+			result = eval('{0}{1}{2}'.format(var_A, operation, var_B))
+	elif operation == '^':
+		result = var_A ** var_B
+	else:
+		result = var_B
 
 print("Result: " + str(result))
