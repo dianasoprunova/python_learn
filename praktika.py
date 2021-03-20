@@ -3,9 +3,12 @@
 """
 
 #считать строчку от пользователя
+instr = input('Что вычислить?')
+print(instr)
 
 #почистить строку
 # "-2 +3.5 * 2 - 3 ^ 2" -> "-2+3.5*2-3^2"
+instr = instr.replace(' ', '')
 
 #распарсить
 """
@@ -16,7 +19,26 @@
 (+*-)
 (-2 3.5 2 3 2)
 """
+hp_ops = tuple ('^')
+mp_ops = ('*', '/')
+lp_ops = tuple ('+-')
+supported_ops = hp_ops + mp_ops + lp_ops
+digit_chars = tuple('0123456789.-')
 
+actions = list()
+d = dict()
+d['opr'] = ''
+d['val'] = None
+actions.append(d)
+
+for letter in instr:
+    if letter in supported_ops:
+         actions.append({'opr': letter, 'val': ''})
+        pass #под операции
+    elif letter in digit_chars:
+         actions[-1]['val'] += letter
+         pass #под числа    
+    
 #вычислить операции 1го приоритета (возведение в степень)
 """
 на вход наш набор значений и операций
