@@ -1,71 +1,56 @@
 import speech_recognition as sr
+import os
 
-print(sr.Microphone.list_microphone_names())
-c = [] #Пустой список для анализа в дальнейшем
-p=' ' # СТрока для Дальнейший анализ 
-r = sr.Recognizer () # Распознование файла
-mic = sr.Microphone() # Распознавание с микро
-vybor = input ('Если вы хотите обработать запись с микрофона введите 1, если вы хотите обработать запись введите 2 ')
+# print(sr.Microphone.list_microphone_names())
+search_dir = 'audio'
+c = []
+p=' ' 
+r = sr.Recognizer ()
+# mic = sr.Microphone()
+my_files = []
 
+# определение ключевого слова для поиска
+word = input('Введите слово или его часть для поиска ')
+vybor = input ('если вы хотите обработать запись с микрофона введите 1, если вы хотите обработать запись введите 2 ')
+# запись и распознавание через микрофон
 if vybor == '1':
     with mic as audio_file:
-        print("Говорите пожалуйста")
+        print("Speak Please")
         r.adjust_for_ambient_noise(audio_file)
         audio = r.listen(audio_file)
-        print("Перевожу речь в текст")
-        print("Вы сказали: " + r.recognize_google(audio, language ='ru-RU'))
+        print("Converting Speech to Text...")
+        print("You said: " + r.recognize_google(audio, language ='ru-RU'))
+# Разпознавание речи из аудио-файлов
 elif vybor == '2':
-    fail = input('Введите название файла с расширением ')
-    harvard = sr.AudioFile(fail)
-    with harvard as source:
-        audio = r.record(source)
-        print(r.recognize_google(audio, language ='ru-RU'))
-        '''
-        с = list(r.recognize_google(audio, language ='ru-RU'))
-        for i, letter in enumerate((r.recognize_google(audio, language ='ru-RU'))):
-            if letter !=' ':
-                p = p + str(letter)
-            else:
-                c.append(p)
-                p = ' '
-                '''
-text = ' ' 
-text = r.recognize_google(audio, language ='ru-RU')
-#print(r.recognize_google(audio, language ='ru-RU'))
-#print(c)
 
+    # чтение файлов из дериктории и создание списка с названиями
+    for x in os.listdir(search_dir):
+        if '.wav' in x:
+            my_files.append(x)
+    print(my_files)
+    for f in my_files:
+        print(f)
+        harvard = sr.AudioFile(search_dir+'/'+f)
+        with harvard as source:
+            audio = r.record(source)
+            с = c + list(r.recognize_google(audio, language ='ru-RU'))
+            for i, letter in enumerate((r.recognize_google(audio, language ='ru-RU'))):
+                if letter !=' ':
+                    p = p + str(letter)
+                else:
+                    c.append(p)
+                    p = ' '
+# запись разпознанного текста в файл
 with open('q.txt', 'w') as f:
-    f.write(text)
+    f.write(' '.join(c))
 
-f=open('q.txt','r') # cчитываю файл
-line=f.readline().lower()# делает все буквы маленькими. Так как для распознавания важен регистр
+# чтение файла с распознанной речью
+f=open('q.txt','r')
+line=f.readline().lower()
 
-while line:
-    line=line.split()    
-    s = {}
-    i1=0
-    i2=''
-    q=0
-    t=[]
-    min1=0
-    for i in line:
-        compressed(i)
-        if i not in s and count > 2:  
-            s[i]=1
-        else:
-            s[i]= s[i] + 1
-    for values in s.values(): 
-        if values>i1:
-            i1=values
-    for keys , values in s.items():
-        if values==i1:
-            min1=keys
-    for keys , values in s.items(): 
-        if values==i1:               
-            if min1>keys:
-                min1=keys
-                
-    print(min1,i1)
-    line=f.readline().lower()
+# Поиск совпадений по ключевому слову
+counter = len(line.split(word))-1
+print(word, counter)
 
 f.close()
+
