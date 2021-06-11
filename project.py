@@ -18,12 +18,12 @@ if vybor == '1':
         print("Speak Please")
         r.adjust_for_ambient_noise(audio_file)
         audio = r.listen(audio_file)
-        print("Converting Speech to Text...")
-        print("You said: " + r.recognize_google(audio, language ='ru-RU'))
-# Разпознавание речи из аудио-файлов
+        print("Преобразование речи в текст...")
+        print("Вы сказали: " + r.recognize_google(audio, language ='ru-RU'))
+# Разпознавание речи из аудиофайлов
 elif vybor == '2':
 
-    # чтение файлов из дериктории и создание списка с названиями
+    # чтение файлов из директории и создание списка с названиями
     for x in os.listdir(search_dir):
         if '.wav' in x:
             my_files.append(x)
@@ -48,7 +48,7 @@ with open('q.txt', 'w') as f:
 f=open('q.txt','r')
 line=f.readline().lower()
 
-# Поиск совпадений по ключевому слову
+# Поиск совпадений по ключевому слову или части слова
 counter = len(line.split(word))-1
 print(word, counter)
 
